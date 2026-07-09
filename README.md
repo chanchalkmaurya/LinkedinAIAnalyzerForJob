@@ -7,6 +7,6 @@ Analyze a LinkedIn profile against a job description using Proxycurl and AI.
 - Django
 - Django REST Framework
 - MySQL
-- Proxycurl
+- Enrich Layer (Linkedin Scraping)
 - OpenAI
 - Next.js
