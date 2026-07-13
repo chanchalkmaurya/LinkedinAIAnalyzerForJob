@@ -1,4 +1,3 @@
-
 class AIConstant:
     SCORE_DISTRIBUTION = {
         "experience": 30,

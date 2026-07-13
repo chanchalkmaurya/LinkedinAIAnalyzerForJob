@@ -8,15 +8,11 @@ class ProfileNormalizer:
     Converts raw EnrichLayer response into a normalized Python dictionary.
     """
 
-    def normalize(self, data: dict) -> dict:
+    def normalize(self, linkedin_url: str, data: dict) -> dict:
         return {
-            "profile": self._normalize_profile(data),
-            "experiences": self._normalize_experiences(
-                data.get("experience", [])
-            ),
-            "educations": self._normalize_educations(
-                data.get("education", [])
-            ),
+            "profile": self._normalize_profile(linkedin_url, data),
+            "experiences": self._normalize_experiences(data.get("experiences", [])),
+            "educations": self._normalize_educations(data.get("education", [])),
             "projects": self._normalize_projects(
                 data.get("accomplishment_projects", [])
             ),
@@ -29,46 +25,24 @@ class ProfileNormalizer:
     # Profile
     # ------------------------------------------------------
 
-    def _normalize_profile(self, profile):
+    def _normalize_profile(self, linkedin_url, profile):
 
         return {
-
             "linkedin_id": profile.get("linkedin_id"),
-
             "linkedin_num_id": profile.get("linkedin_num_id"),
-
-            "linkedin_url": self._normalize_url(
-                profile.get("url")
-            ),
-
+            "linkedin_url": self._normalize_url(linkedin_url),
             "full_name": profile.get("name", ""),
-
             "first_name": profile.get("first_name", ""),
-
             "last_name": profile.get("last_name", ""),
-
             "headline": profile.get("position", ""),
-
             "summary": profile.get("about") or "",
-
             "city": profile.get("city") or "",
-
             "location": profile.get("location") or "",
-
             "country_code": profile.get("country_code") or "",
-
-            "avatar": self._normalize_url(
-                profile.get("avatar")
-            ),
-
+            "avatar": self._normalize_url(profile.get("avatar")),
             "followers": profile.get("followers"),
-
             "connections": profile.get("connections"),
-
-            "current_company_name": profile.get(
-                "current_company_name"
-            )
-            or "",
+            "current_company_name": profile.get("current_company_name") or "",
         }
 
     # ------------------------------------------------------
@@ -81,11 +55,8 @@ class ProfileNormalizer:
             item = {
                 "company": exp.get("company") or "",
                 "title": exp.get("title") or "",
-                "description": exp.get("description_html")
-                or "",
-                "company_logo_url": self._normalize_url(
-                    exp.get("company_logo_url")
-                ),
+                "description_HTML": exp.get("description_html") or "",
+                "company_logo_url": self._normalize_url(exp.get("company_logo_url")),
                 "display_order": order,
             }
 
@@ -116,19 +87,14 @@ class ProfileNormalizer:
                 "field_of_study": edu.get("field_of_study") or "",
                 "description": edu.get("description") or "",
                 "grade": edu.get("grade") or "",
-                "activities_and_societies": edu.get(
-                    "activities_and_societies"
-                )
-                or "",
+                "activities_and_societies": edu.get("activities_and_societies") or "",
                 "school_linkedin_url": self._normalize_url(
                     edu.get("school_linkedin_profile_url")
                 ),
                 "school_facebook_url": self._normalize_url(
                     edu.get("school_facebook_profile_url")
                 ),
-                "logo_url": self._normalize_url(
-                    edu.get("logo_url")
-                ),
+                "logo_url": self._normalize_url(edu.get("logo_url")),
                 "display_order": order,
             }
 
@@ -156,9 +122,7 @@ class ProfileNormalizer:
             item = {
                 "title": project.get("title") or "",
                 "description": project.get("description") or "",
-                "url": self._normalize_url(
-                    project.get("url")
-                ),
+                "project_url": self._normalize_url(project.get("url")),
                 "display_order": order,
             }
 

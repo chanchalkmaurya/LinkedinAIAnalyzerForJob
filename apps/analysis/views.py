@@ -9,7 +9,13 @@ from apps.linkedin.services.profile_sync_service import (
 )
 from apps.common.response import ApiResponse
 from apps.analysis.services import ProfileAnalysisService
-from .serializers import AnalyzeProfileSerializer
+from .serializers import (
+    AnalyzeProfileSerializer,
+    AnalysisSerializer,
+    AnalysisDetailSerializer,
+)
+
+from apps.analysis.services import analysis_query_service
 
 logger = logging.getLogger(__name__)
 
@@ -35,8 +41,30 @@ class AnalyzeProfileAPIView(APIView):
             job_description=data["job_description"],
         )
 
+        serializer = AnalysisSerializer(result)
         return ApiResponse.success(
-            data=result,
-            message="Profile analyzed successfully.",
-            status_code=status.HTTP_200_OK,
+            message="Analysis completed successfully.",
+            data={
+                "analysis_id": str(result.id),
+                **serializer.data,
+            },
         )
+
+
+class AnalysisDetailView(APIView):
+    def get(self, request, analysis_id):
+        try:
+            analysis = analysis_query_service.get_analysis(analysis_id)
+
+            serializer = AnalysisDetailSerializer(analysis)
+
+            return ApiResponse.success(
+                data=serializer.data,
+                message="Analysis fetched successfully.",
+            )
+
+        except Exception:
+            return ApiResponse.error(
+                message="Analysis not found.",
+                status_code=status.HTTP_404_NOT_FOUND,
+            )

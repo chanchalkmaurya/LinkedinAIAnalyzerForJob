@@ -1,10 +1,7 @@
 import re
 from django.core.exceptions import ValidationError
 
-
-LINKEDIN_REGEX = (
-    r"^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$"
-)
+LINKEDIN_REGEX = r"^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$"
 
 
 def validate_linkedin_url(value):

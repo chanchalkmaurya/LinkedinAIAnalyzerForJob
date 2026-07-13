@@ -1,7 +1,6 @@
 import json
 import logging
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -59,9 +58,7 @@ class AIResponseParser:
 
             logger.exception("Invalid JSON returned by AI.")
 
-            raise ValueError(
-                "AI returned invalid JSON."
-            ) from exc
+            raise ValueError("AI returned invalid JSON.") from exc
 
         self._validate(data)
 
@@ -105,36 +102,26 @@ class AIResponseParser:
 
         if missing:
 
-            raise ValueError(
-                f"Missing response keys: {missing}"
-            )
+            raise ValueError(f"Missing response keys: {missing}")
 
         if not isinstance(data["overall_score"], int):
 
-            raise ValueError(
-                "overall_score must be integer."
-            )
+            raise ValueError("overall_score must be integer.")
 
         if not 0 <= data["overall_score"] <= self.MAX_SCORE:
 
-            raise ValueError(
-                "overall_score must be between 0-100."
-            )
+            raise ValueError("overall_score must be between 0-100.")
 
         if not isinstance(data["strengths"], list):
 
-            raise ValueError(
-                "strengths must be list."
-            )
+            raise ValueError("strengths must be list.")
 
         if not isinstance(
             data["missing_keywords"],
             list,
         ):
 
-            raise ValueError(
-                "missing_keywords must be list."
-            )
+            raise ValueError("missing_keywords must be list.")
 
     ##########################################################
 
@@ -143,15 +130,11 @@ class AIResponseParser:
         breakdown: dict,
     ):
 
-        missing = self.BREAKDOWN_KEYS - set(
-            breakdown.keys()
-        )
+        missing = self.BREAKDOWN_KEYS - set(breakdown.keys())
 
         if missing:
 
-            raise ValueError(
-                f"Missing breakdown keys: {missing}"
-            )
+            raise ValueError(f"Missing breakdown keys: {missing}")
 
         total = 0
 
@@ -161,23 +144,17 @@ class AIResponseParser:
 
             if not isinstance(score, int):
 
-                raise ValueError(
-                    f"{key} score must be integer."
-                )
+                raise ValueError(f"{key} score must be integer.")
 
             if score < 0:
 
-                raise ValueError(
-                    f"{key} score cannot be negative."
-                )
+                raise ValueError(f"{key} score cannot be negative.")
 
             total += score
 
         if total > self.MAX_SCORE:
 
-            raise ValueError(
-                "Breakdown score exceeds 100."
-            )
+            raise ValueError("Breakdown score exceeds 100.")
 
     ##########################################################
 
@@ -186,15 +163,11 @@ class AIResponseParser:
         suggestions: dict,
     ):
 
-        missing = self.SUGGESTION_KEYS - set(
-            suggestions.keys()
-        )
+        missing = self.SUGGESTION_KEYS - set(suggestions.keys())
 
         if missing:
 
-            raise ValueError(
-                f"Missing suggestion keys: {missing}"
-            )
+            raise ValueError(f"Missing suggestion keys: {missing}")
 
         for key in self.SUGGESTION_KEYS:
 
@@ -202,14 +175,10 @@ class AIResponseParser:
 
             if not isinstance(value, list):
 
-                raise ValueError(
-                    f"{key} suggestions must be list."
-                )
+                raise ValueError(f"{key} suggestions must be list.")
 
             for item in value:
 
                 if not isinstance(item, str):
 
-                    raise ValueError(
-                        f"{key} suggestions must contain only strings."
-                    )
+                    raise ValueError(f"{key} suggestions must contain only strings.")

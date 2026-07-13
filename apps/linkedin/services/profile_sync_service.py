@@ -69,7 +69,11 @@ class ProfileSyncService:
 
         raw_profile = self.enrichlayer.get_profile(linkedin_url)
 
-        normalized = self.normalizer.normalize(raw_profile)
+        normalized = self.normalizer.normalize(linkedin_url, raw_profile)
+
+        print("=" * 20)
+        print(normalized)
+        print("=" * 20)
 
         with transaction.atomic():
 
@@ -112,11 +116,7 @@ class ProfileSyncService:
         linkedin_url: str,
     ) -> LinkedInProfile | None:
 
-        return (
-            LinkedInProfile.objects
-            .filter(linkedin_url=linkedin_url)
-            .first()
-        )
+        return LinkedInProfile.objects.filter(linkedin_url=linkedin_url).first()
 
     def _create_or_update_profile(
         self,
@@ -128,7 +128,7 @@ class ProfileSyncService:
             linkedin_url=linkedin_url,
             defaults={
                 **profile_data,
-                "last_synced_at": timezone.now(),
+                "last_synced": timezone.now(),
             },
         )
 
@@ -141,7 +141,7 @@ class ProfileSyncService:
         )
 
         return profile
-    
+
     def _sync_experiences(
         self,
         profile: LinkedInProfile,
@@ -277,6 +277,3 @@ class ProfileSyncService:
             len(certification_objects),
             extra={"profile_id": profile.id},
         )
-        
-        
-    

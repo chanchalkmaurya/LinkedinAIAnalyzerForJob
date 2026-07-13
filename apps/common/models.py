@@ -11,9 +11,7 @@ class TimeStampedModel(models.Model):
         db_index=True,
     )
 
-    updated_at = models.DateTimeField(
-        auto_now=True
-    )
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
@@ -44,9 +42,8 @@ class BaseModel(TimeStampedModel, UUIDModel):
 
     class Meta:
         abstract = True
-        
-        
-        
+
+
 from django.db import models
 
 

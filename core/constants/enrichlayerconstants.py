@@ -1,2 +1,2 @@
 class Endpoints:
-    PROFILE = "/linkedin/profile"
+    PROFILE = "api/v2/profile"

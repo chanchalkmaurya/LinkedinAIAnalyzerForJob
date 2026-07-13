@@ -10,38 +10,25 @@ class LinkedInProfile(BaseModel):
         db_index=True,
     )
 
-    linkedin_id = models.CharField(
-        max_length=200,
-        blank=True,
-    )
+    linkedin_id = models.CharField(max_length=200, blank=True, null=True)
 
-    linkedin_num_id = models.CharField(
-        max_length=100,
-        blank=True,
-    )
+    linkedin_num_id = models.CharField(max_length=100, blank=True, null=True)
 
-    first_name = models.CharField(
-        max_length=100
-    )
+    first_name = models.CharField(max_length=100)
 
     last_name = models.CharField(
         max_length=100,
         blank=True,
     )
 
-    full_name = models.CharField(
-        max_length=255
-    )
+    full_name = models.CharField(max_length=255)
 
     headline = models.CharField(
         max_length=500,
         blank=True,
     )
 
-    summary = models.TextField(
-        blank=True,
-        default=""
-    )
+    summary = models.TextField(blank=True, default="")
 
     city = models.CharField(
         max_length=120,
@@ -58,14 +45,9 @@ class LinkedInProfile(BaseModel):
         blank=True,
     )
 
-    avatar = models.URLField(
-        blank=True
-    )
+    avatar = models.URLField(blank=True)
 
-    followers = models.IntegerField(
-        null=True,
-        blank=True,
-    )
+    followers = models.IntegerField(null=True, blank=True)
 
     connections = models.IntegerField(
         null=True,
@@ -95,10 +77,8 @@ class LinkedInProfile(BaseModel):
 
     def __str__(self):
         return self.full_name
-    
-    
-    
-    
+
+
 class Experience(DateRangeMixin, BaseModel):
 
     profile = models.ForeignKey(
@@ -107,26 +87,17 @@ class Experience(DateRangeMixin, BaseModel):
         related_name="experiences",
     )
 
-    company = models.CharField(
-        max_length=255
-    )
+    company = models.CharField(max_length=255)
 
-    title = models.CharField(
-        max_length=255
-    )
+    title = models.CharField(max_length=255)
 
-    description_HTML = models.TextField(
-        blank=True,
-        default=""
-    )
+    description_HTML = models.TextField(blank=True, default="")
 
     company_logo_url = models.URLField(
         blank=True,
     )
 
-    display_order = models.PositiveSmallIntegerField(
-        default=0
-    )
+    display_order = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
 
@@ -141,10 +112,8 @@ class Experience(DateRangeMixin, BaseModel):
 
     def __str__(self):
         return f"{self.company} - {self.title}"
-    
-    
-    
-    
+
+
 class Project(DateRangeMixin, BaseModel):
 
     profile = models.ForeignKey(
@@ -185,7 +154,6 @@ class Project(DateRangeMixin, BaseModel):
 
     def __str__(self):
         return self.title
-    
 
 
 class Education(DateRangeMixin, BaseModel):
@@ -261,7 +229,8 @@ class Education(DateRangeMixin, BaseModel):
 
     def __str__(self):
         return f"{self.school} - {self.degree_name}"
-    
+
+
 class Certification(DateRangeMixin, BaseModel):
 
     profile = models.ForeignKey(

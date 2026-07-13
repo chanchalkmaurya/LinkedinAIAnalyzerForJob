@@ -1,5 +1,3 @@
-
-
 from pathlib import Path
 from decouple import config
 
@@ -16,27 +14,23 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = config(
-    "ALLOWED_HOSTS",
-    default="127.0.0.1,localhost"
-).split(",")
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost").split(",")
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    
-    'rest_framework',
-    'django_filters',
-    'corsheaders',
-    'drf_spectacular',
-    
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "django_filters",
+    "corsheaders",
+    "drf_spectacular",
+    "django_extensions",
     "apps.common",
     "apps.linkedin",
     "apps.analysis",
@@ -44,41 +38,34 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-
     "django.contrib.sessions.middleware.SessionMiddleware",
-
     "django.middleware.common.CommonMiddleware",
-
     "django.middleware.csrf.CsrfViewMiddleware",
-
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-
     "django.contrib.messages.middleware.MessageMiddleware",
-
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = "config.wsgi.application"
 
 
 # Database
@@ -118,30 +105,16 @@ DATABASES = {
 # ]
 
 REST_FRAMEWORK = {
-
-    "DEFAULT_SCHEMA_CLASS":
-        "drf_spectacular.openapi.AutoSchema",
-
-    "DEFAULT_FILTER_BACKENDS": [
-        "django_filters.rest_framework.DjangoFilterBackend"
-    ],
-
-    "DEFAULT_RENDERER_CLASSES": [
-        "rest_framework.renderers.JSONRenderer"
-    ],
-    
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     "EXCEPTION_HANDLER": "apps.common.exceptions.custom_exception_handler",
 }
 
 SPECTACULAR_SETTINGS = {
-
     "TITLE": "LinkedIn AI Analyzer API",
-
-    "DESCRIPTION":
-        "Analyze LinkedIn profiles against Job Descriptions",
-
+    "DESCRIPTION": "Analyze LinkedIn profiles against Job Descriptions",
     "VERSION": "1.0.0",
-
     "SERVE_INCLUDE_SCHEMA": False,
 }
 
@@ -151,34 +124,32 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-CACHE_TIMEOUT_DAYS = config(
-    "CACHE_TIMEOUT_DAYS",
-    cast=int,
-    default=30
-)
+CACHE_TIMEOUT_DAYS = config("CACHE_TIMEOUT_DAYS", cast=int, default=30)
 
 
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-
     "formatters": {
         "standard": {
             "format": "[{asctime}] {levelname} {name}: {message}",
             "style": "{",
         },
     },
-
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
             "formatter": "standard",
         },
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/linkedin_analyzer.log",
+            "formatter": "standard",
+        },
     },
-
     "loggers": {
-        "linkedin_analyzer": {
-            "handlers": ["console"],
+        "apps": {
+            "handlers": ["console", "file"],
             "level": "INFO",
         },
     },
@@ -186,9 +157,9 @@ LOGGING = {
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -198,12 +169,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static"
-]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "/media/"
 
@@ -212,13 +181,16 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-
-
 ENRICHLAYER = {
     "API_KEY": config("ENRICHLAYER_API_KEY"),
     "BASE_URL": config(
         "ENRICHLAYER_BASE_URL",
-        default="https://api.enrichlayer.com",
+        default="https://enrichlayer.com",
     ),
     "TIMEOUT": 30,
 }
+
+
+OPENAI = {"OPENAI_API_KEY": config("OPENAI_API_KEY")}
+
+GEMINI = {"GEMINI_API_KEY": config("GEMINI_API_KEY")}

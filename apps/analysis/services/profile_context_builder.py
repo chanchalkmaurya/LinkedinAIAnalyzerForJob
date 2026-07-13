@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404
 
 from apps.linkedin.models import LinkedInProfile
 
+from .format_date import format_partial_date
+
 
 class ProfileContextBuilder:
     """
@@ -15,7 +17,7 @@ class ProfileContextBuilder:
         context = {
             "profile": {
                 "headline": profile.headline,
-                "summary": profile.about,
+                "summary": profile.summary,
                 "current_company": profile.current_company_name,
                 "location": profile.location,
             },
@@ -23,11 +25,15 @@ class ProfileContextBuilder:
                 {
                     "company": experience.company,
                     "title": experience.title,
-                    "description": experience.description,
-                    "start_date": experience.start_date.isoformat()
-                    if experience.start_date else None,
-                    "end_date": experience.end_date.isoformat()
-                    if experience.end_date else None,
+                    "description": experience.description_HTML,
+                    "start_date": format_partial_date(
+                        experience.start_year,
+                        experience.start_month,
+                        experience.start_day,
+                    ),
+                    "end_date": format_partial_date(
+                        experience.end_year, experience.end_month, experience.end_day
+                    ),
                 }
                 for experience in profile.experiences.all()
             ],
@@ -56,7 +62,7 @@ class ProfileContextBuilder:
                 for certification in profile.certifications.all()
             ],
         }
-        
+
         return profile, context
 
     def _get_profile(self, profile_id: int) -> LinkedInProfile:

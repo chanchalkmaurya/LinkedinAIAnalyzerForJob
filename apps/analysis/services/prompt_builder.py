@@ -1,6 +1,7 @@
 import json
 from core.constants import AIConstant
 
+
 class PromptBuilder:
     """
     Builds the prompt for the AI model.

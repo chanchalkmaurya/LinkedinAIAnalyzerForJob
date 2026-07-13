@@ -1,63 +1,28 @@
-import logging
-
-from openai import OpenAI
-from django.conf import settings
-
-
-logger = logging.getLogger(__name__)
+from apps.common.services.openai_services import OPENAIServices
+from apps.common.services.gemini_services import GeminiServices
 
 
 class LLMService:
     """
-    Wrapper around OpenAI Responses API.
+    Picks a provider ("openai" or "gemini") and delegates
+    generate() calls to it.
     """
 
-    DEFAULT_MODEL = "gpt-5-mini"
+    PROVIDERS = {
+        "openai": OPENAIServices,
+        "gemini": GeminiServices,
+    }
 
-    def __init__(self):
+    def __init__(self, service: str = "openai", model: str | None = None):
+        provider_class = self.PROVIDERS.get(service)
 
-        self.client = OpenAI(
-            api_key=settings.OPENAI_API_KEY,
-        )
-
-    def generate(
-        self,
-        prompt: str,
-        model: str | None = None,
-    ) -> str:
-        """
-        Sends prompt to OpenAI and returns raw response text.
-        """
-
-        model = model or self.DEFAULT_MODEL
-
-        logger.info(
-            "Generating AI response.",
-            extra={
-                "model": model,
-            },
-        )
-
-        try:
-
-            response = self.client.responses.create(
-                model=model,
-                input=prompt,
-                temperature=0.2,
+        if provider_class is None:
+            raise ValueError(
+                f"Unknown LLM service '{service}'. "
+                f"Valid options: {list(self.PROVIDERS.keys())}"
             )
 
-            output = response.output_text.strip()
+        self.provider = provider_class(model) if model else provider_class()
 
-            logger.info(
-                "AI response generated successfully."
-            )
-
-            return output
-
-        except Exception:
-
-            logger.exception(
-                "OpenAI API request failed."
-            )
-
-            raise
+    def generate(self, prompt: str) -> str:
+        return self.provider.generate(prompt)
