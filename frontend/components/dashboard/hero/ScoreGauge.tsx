@@ -1,6 +1,5 @@
 "use client";
 
-import AnimatedCounter from "../AnimatedCounter";
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
@@ -52,7 +51,7 @@ export default function ScoreGauge({
                             className="text-7xl font-black"
                             style={{ color }}
                         >
-                            <AnimatedCounter value={score} />
+                            {score}
                         </div>
 
                         <div className="mt-2 text-lg text-zinc-400">

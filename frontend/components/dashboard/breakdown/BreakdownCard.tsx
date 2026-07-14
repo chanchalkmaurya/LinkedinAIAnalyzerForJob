@@ -1,7 +1,7 @@
 "use client";
 
 import { LucideIcon } from "lucide-react";
-import AnimatedCounter from "../AnimatedCounter";
+
 
 interface BreakdownCardProps {
     title: string;
@@ -84,7 +84,7 @@ export default function BreakdownCard({
 
                 <div className="text-right">
                     <div className="text-3xl font-bold text-white">
-                        <AnimatedCounter value={score} />
+                        {score}
                     </div>
 
                     <p className="text-sm text-zinc-500">
