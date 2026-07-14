@@ -116,17 +116,6 @@ export default function ResultsPage() {
                         suggestions={analysis.suggestions}
                     />
                 </Section>
-
-
-                <br /><br />
-                <Section
-                    title="AI Recommendations"
-                    description="Actionable suggestions to improve your ATS compatibility."
-                >
-                    <RecommendationsGrid
-                        suggestions={analysis.suggestions}
-                    />
-                </Section>
         </DashboardContainer>
     ); 
 }
