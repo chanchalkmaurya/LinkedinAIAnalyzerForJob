@@ -5,13 +5,8 @@ import logging
 from django.db import transaction
 from django.utils import timezone
 
-from apps.linkedin.models import (
-    LinkedInProfile,
-    Experience,
-    Education,
-    Project,
-    Certification,
-)
+from apps.linkedin.models import (Certification, Education, Experience,
+                                  LinkedInProfile, Project)
 
 from .enrichlayer_service import EnrichLayerService
 from .profile_normalizer import ProfileNormalizer

@@ -1,18 +1,11 @@
 import logging
 
-from apps.analysis.services.profile_context_builder import (
-    ProfileContextBuilder,
-)
-from apps.analysis.services.prompt_builder import (
-    PromptBuilder,
-)
-from apps.analysis.services.llm_service import (
-    LLMService,
-)
-from apps.analysis.services.response_parser import (
-    AIResponseParser,
-)
 from apps.analysis.models import Analysis
+from apps.analysis.services.llm_service import LLMService
+from apps.analysis.services.profile_context_builder import \
+    ProfileContextBuilder
+from apps.analysis.services.prompt_builder import PromptBuilder
+from apps.analysis.services.response_parser import AIResponseParser
 
 logger = logging.getLogger(__name__)
 

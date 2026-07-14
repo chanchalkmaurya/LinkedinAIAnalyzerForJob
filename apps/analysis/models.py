@@ -34,7 +34,7 @@ class Analysis(models.Model):
     skills_score = models.PositiveSmallIntegerField()
 
     summary_score = models.PositiveSmallIntegerField()
-    
+
     strengths = models.JSONField(
         default=list,
         blank=True,

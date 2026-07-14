@@ -4,18 +4,13 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.linkedin.services.profile_sync_service import (
-    ProfileSyncService,
-)
+from apps.analysis.services import (ProfileAnalysisService,
+                                    analysis_query_service)
 from apps.common.response import ApiResponse
-from apps.analysis.services import ProfileAnalysisService
-from .serializers import (
-    AnalyzeProfileSerializer,
-    AnalysisSerializer,
-    AnalysisDetailSerializer,
-)
+from apps.linkedin.services.profile_sync_service import ProfileSyncService
 
-from apps.analysis.services import analysis_query_service
+from .serializers import (AnalysisDetailSerializer, AnalysisSerializer,
+                          AnalyzeProfileSerializer)
 
 logger = logging.getLogger(__name__)
 

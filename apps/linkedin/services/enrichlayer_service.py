@@ -1,15 +1,12 @@
-import requests
+import logging
 
+import requests
 from django.conf import settings
 
-from .exceptions import (
-    EnrichLayerAPIException,
-    EnrichLayerTimeoutException,
-    EnrichLayerResponseException,
-)
-
 from core.constants import Endpoints
-import logging
+
+from .exceptions import (EnrichLayerAPIException, EnrichLayerResponseException,
+                         EnrichLayerTimeoutException)
 
 logger = logging.getLogger(__name__)
 

@@ -1,5 +1,5 @@
-from apps.common.services.openai_services import OPENAIServices
 from apps.common.services.gemini_services import GeminiServices
+from apps.common.services.openai_services import OPENAIServices
 
 
 class LLMService:
