@@ -11,9 +11,44 @@ export default function AnalyzeButton({
         <button
             type="submit"
             disabled={disabled || loading}
-            className="w-full rounded-xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="
+                group
+                relative
+                h-14
+                w-full
+                overflow-hidden
+                rounded-2xl
+                bg-gradient-to-r
+                from-blue-600
+                to-cyan-500
+                font-semibold
+                text-white
+                shadow-lg
+                transition-all
+                duration-300
+                hover:scale-[1.02]
+                hover:shadow-blue-500/30
+                disabled:cursor-not-allowed
+                disabled:opacity-60
+            "
         >
-            {loading ? "Analyzing..." : "Analyze Profile"}
+            <span className="relative z-10">
+                {loading
+                    ? "Analyzing..."
+                    : "Analyze Profile"}
+            </span>
+
+            <div
+                className="
+                    absolute
+                    inset-0
+                    bg-white/10
+                    opacity-0
+                    transition
+                    duration-300
+                    group-hover:opacity-100
+                "
+            />
         </button>
     );
 }

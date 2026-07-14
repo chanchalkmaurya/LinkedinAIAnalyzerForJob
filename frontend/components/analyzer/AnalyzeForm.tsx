@@ -16,10 +16,8 @@ import LinkedInInput from "./LinkedInInput";
 import { toast } from "sonner";
 import { ApiError } from "@/utils/api-error";
 
-import useAnalysis from "@/hooks/useAnalysis";
 import { useRouter } from "next/navigation";
-
-
+import { url } from "inspector";
 
 export default function AnalyzeForm() {
     const {
@@ -39,10 +37,11 @@ export default function AnalyzeForm() {
             profile_updated_recently: false,
         },
     });
+
     const router = useRouter();
 
-    const { setAnalysisResult } = useAnalysis();
-    const jobDescription = watch("job_description") || "";
+    const jobDescription =
+        watch("job_description") || "";
 
     const onSubmit = async (
         data: AnalyzeFormData
@@ -63,10 +62,9 @@ export default function AnalyzeForm() {
             }
 
             toast.success(response.message);
-            router.push(
-                `/results/${response.data.analysis_id}`
-            );
-
+            const url = `/results/${response.data.analysis_id}`;
+            router.push(url);
+            
         } catch (error) {
             toast.dismiss(loadingToast);
 
@@ -82,41 +80,95 @@ export default function AnalyzeForm() {
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-6 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-8 shadow-xl"
-        >
-            <LinkedInInput
-                {...register("linkedin_url")}
-                error={errors.linkedin_url?.message}
-                disabled={isSubmitting}
-            />
+        <div className="mx-auto w-full max-w-3xl">
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="
+                    rounded-3xl
+                    border
+                    border-zinc-800
+                    bg-zinc-900/70
+                    backdrop-blur-xl
+                    shadow-2xl
+                    p-8
+                    md:p-10
+                "
+            >
+                <div className="space-y-8">
+                    {/* Header */}
+                    <div>
+                        <h2 className="text-2xl font-bold text-white">
+                            Start Your ATS Analysis
+                        </h2>
 
-            <JobDescriptionInput
-                {...register("job_description")}
-                valueLength={jobDescription.length}
-                error={errors.job_description?.message}
-                disabled={isSubmitting}
-            />
+                        <p className="mt-2 text-zinc-400">
+                            Compare your LinkedIn profile against a job description
+                            and receive an AI-powered ATS compatibility report.
+                        </p>
+                    </div>
 
-            <label className="flex cursor-pointer items-center gap-3">
-                <input
-                    type="checkbox"
-                    {...register("profile_updated_recently")}
-                    disabled={isSubmitting}
-                    className="h-4 w-4 rounded border-zinc-700"
-                />
+                    {/* Inputs */}
+                    <LinkedInInput
+                        {...register("linkedin_url")}
+                        error={
+                            errors.linkedin_url?.message
+                        }
+                        disabled={isSubmitting}
+                    />
 
-                <span className="text-sm text-zinc-300">
-                    My LinkedIn profile has been updated within
-                    the last 30 days.
-                </span>
-            </label>
+                    <JobDescriptionInput
+                        {...register("job_description")}
+                        valueLength={
+                            jobDescription.length
+                        }
+                        error={
+                            errors.job_description
+                                ?.message
+                        }
+                        disabled={isSubmitting}
+                    />
 
-            <AnalyzeButton
-                loading={isSubmitting}
-                disabled={isSubmitting}
-            />
-        </form>
+                    {/* Checkbox */}
+                    <label
+                        className="
+                            flex
+                            items-start
+                            gap-3
+                            rounded-xl
+                            border
+                            border-zinc-800
+                            bg-zinc-950/40
+                            p-4
+                        "
+                    >
+                        <input
+                            type="checkbox"
+                            {...register(
+                                "profile_updated_recently"
+                            )}
+                            disabled={isSubmitting}
+                            className="mt-1 h-4 w-4 rounded border-zinc-700"
+                        />
+
+                        <div>
+                            <p className="font-medium text-white">
+                                LinkedIn updated recently
+                            </p>
+
+                            <p className="mt-1 text-sm text-zinc-400">
+                                Check this if you've updated your profile
+                                within the last 30 days.
+                            </p>
+                        </div>
+                    </label>
+
+                    {/* Button */}
+                    <AnalyzeButton
+                        loading={isSubmitting}
+                        disabled={isSubmitting}
+                    />
+                </div>
+            </form>
+        </div>
     );
 }

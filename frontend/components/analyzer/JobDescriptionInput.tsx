@@ -24,16 +24,16 @@ const JobDescriptionInput = forwardRef<
         ref
     ) => {
         return (
-            <div className="space-y-2">
+            <div className="space-y-3">
                 <div className="flex items-center justify-between">
                     <label
                         htmlFor="job_description"
-                        className="text-sm font-medium text-zinc-300"
+                        className="text-sm font-semibold text-zinc-200"
                     >
                         Job Description
                     </label>
 
-                    <span className="text-xs text-zinc-500">
+                    <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs text-zinc-400">
                         {valueLength}/{maxLength}
                     </span>
                 </div>
@@ -41,19 +41,28 @@ const JobDescriptionInput = forwardRef<
                 <textarea
                     ref={ref}
                     id="job_description"
-                    rows={10}
+                    rows={12}
                     maxLength={maxLength}
-                    placeholder="Paste the complete Job Description here..."
+                    placeholder="Paste the complete job description here..."
                     {...props}
-                    className={`w-full resize-none rounded-xl border bg-zinc-900 px-4 py-3 text-white outline-none transition-all
-                    ${
-                        error
-                            ? "border-red-500"
-                            : "border-zinc-700 focus:border-blue-500"
-                    }
-                    placeholder:text-zinc-500
-                    disabled:cursor-not-allowed
-                    disabled:opacity-60`}
+                    className={`
+                        w-full
+                        rounded-2xl
+                        border
+                        bg-zinc-950/60
+                        px-5
+                        py-5
+                        text-white
+                        outline-none
+                        transition-all
+                        duration-300
+                        placeholder:text-zinc-500
+                        ${
+                            error
+                                ? "border-red-500"
+                                : "border-zinc-800 focus:border-blue-500"
+                        }
+                    `}
                 />
 
                 {error && (
@@ -66,6 +75,7 @@ const JobDescriptionInput = forwardRef<
     }
 );
 
-JobDescriptionInput.displayName = "JobDescriptionInput";
+JobDescriptionInput.displayName =
+    "JobDescriptionInput";
 
 export default JobDescriptionInput;
